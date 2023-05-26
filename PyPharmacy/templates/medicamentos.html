@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>MessageBoard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/main.css">
+    <div class="main-navbar">
+        <img src="/static/images/logo.png" class="logo">
+        <a id="cerrarSesion" class="btn btn-sesion" href="/logout">Cerrar sesión</a>
+        <a class="nav-item" href="/historial">Historial de ventas</a>
+        <a class="nav-item" href="/medicamentos">Medicamentos</a>
+        <a class="nav-item" href="/personal">Personal</a>
+    </div>
+</head>
+
+<body>
+    <div id="main-container">
+        <div id="ventas-container">
+            <h2 style="text-align: center; padding: 5px;">Medicamentos</h2>
+            <table>
+                <tr>
+                    <th>ID Medicamento</th>
+                    <th>Nombre</th>
+                    <th>Tipo</th>
+                    <th>Unidades disponibles</th>
+                    <th class="custom-column-btn"></th>
+                </tr>
+                {% if medicamentos_list %}
+                    {% for medicamento in medicamentos_list %}
+                    <tr>
+                        <td>{{medicamento.id}}</td>
+                        <td>{{medicamento.nombre}}</td>
+                        <td>{{medicamento.categoria}}</td>
+                        <td>{{medicamento.num_unidades}}</td>
+                        <td class="custom-column-btn">
+                            <button id="btn-editar-medicamento-{{medicamento.id}}" type="button" class="custom-btn btn btn-primary" data-id="{{medicamento.id}}"
+                                data-nombre="{{medicamento.nombre}}" data-categoria="{{medicamento.categoria}}"
+                                data-unidades="{{medicamento.num_unidades}}"><i class="fas fa-edit"></i></button>                        
+                            <form action="/medicamentos/eliminar" method="POST" style="display: inline;">
+                                <input type="hidden" name="medicamento_id" value="{{medicamento.id}}">
+                                <button type="submit" class="custom-btn btn btn-danger"><i class="fa fa-trash"></i></button>
+                            </form>                
+                        </td>
+                    </tr>
+                    <div class="modal fade" id="modalModificarMedicamento" role="dialog">
+                        <div class="modal-dialog custom-modal-300">
+                            <div class="modal-content">
+                                <div class="modal-header custom-modal-header">
+                                    <h5>Modificar medicamento</h5>
+                                    <div id="btnCerrarModificarMedicamento" class="btnCerrarModal" type="button" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </div>
+                                </div>
+                                <form id="formularioModificarMedicamento-{{medicamento.id}}" action="/medicamentos/modificar" method="post">
+                                    <div class="modal-body custom-modal-body">
+                                        <div class="campoRegistro">
+                                            <label for="id_medicamento">ID (TRES LETRAS):</label>
+                                            <input type="text" id="id_medicamento" name="id_medicamento" readonly>
+                                        </div>
+                                        <div class="campoRegistro">
+                                            <label for="nombreMedicamento">Nombre:</label>
+                                            <input type="text" id="nombreMedicamento" name="nombreMedicamento" required>
+                                        </div>
+                                        <div class="campoRegistro">
+                                            <label for="categoria">Tipo:</label>
+                                            <input type="text" id="categoria" name="categoria" required>
+                                        </div>
+                                        <div class="campoRegistro">
+                                            <label for="num_unidades">Num. de unidades disponibles:</label>
+                                            <input type="number" id="num_unidades" name="num_unidades">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer custom-modal-footer">
+                                        <input type="submit" value="Modificar datos">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            </table>
+        </div>
+        <button id="botonRegistrarMedicamento" type="button" class="btn-accion btn btn-light" data-toggle="modal"
+            data-target="#modalRegistroMedicamento">Registrar nuevo medicamento</button>
+        <div class="modal fade" id="modalRegistroMedicamento" role="dialog">
+            <div class="modal-dialog custom-modal-300">
+                <div class="modal-content">
+                    <div class="modal-header custom-modal-header">
+                        <h5>Registro de Medicamentos</h5>
+                        <div id="btnCerrarRegistroMedicamento" class="btnCerrarModal" type="button" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </div>
+                    </div>
+                    <form id="formularioRegistroMedicamento" action="/medicamentos/registrar" method="post">
+                        <div class="modal-body custom-modal-body">
+                            <div class="campoRegistro">
+                                <label for="id_medicamento">ID (TRES LETRAS):</label>
+                                <input type="text" id="id_medicamento" name="id_medicamento" required>
+                            </div>
+                            <div class="campoRegistro">
+                                <label for="nombreMedicamento">Nombre:</label>
+                                <input type="text" id="nombreMedicamento" name="nombreMedicamento" required>
+                            </div>
+                            <div class="campoRegistro">
+                                <label for="categoria">Tipo:</label>
+                                <input type="text" id="categoria" name="categoria" required>
+                            </div>
+                            <div class="campoRegistro">
+                                <label for="num_unidades">Num. de unidades disponibles:</label>
+                                <input type="number" id="num_unidades" name="num_unidades">
+                            </div>
+                        </div>
+                        <div class="modal-footer custom-modal-footer">
+                            <input type="submit" value="Registrar medicamento">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+    <script src="/static/js/jquery-3.6.4.min.js"></script>
+    <script type="text/javascript" src="/static/js/main.js"></script>
+</body>
+
+</html>

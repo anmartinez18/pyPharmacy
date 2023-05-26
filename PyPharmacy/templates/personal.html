@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>MessageBoard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/main.css">
+    <div class="main-navbar">
+        <img src="/static/images/logo.png" class="logo">
+        <a id="cerrarSesion" class="btn btn-sesion" href="/logout">Cerrar sesión</a>
+        <a class="nav-item" href="/historial">Historial de ventas</a>
+        <a class="nav-item" href="/medicamentos">Medicamentos</a>
+        <a class="nav-item" href="/personal">Personal</a>
+    </div>
+</head>
+
+<body>
+    <div id="main-container">
+        <div id="ventas-container">
+            <h2 style="text-align: center; padding: 5px;">Personal</h2>
+            <table>
+                <tr>
+                    <th>Usuario</th>
+                    <th>Nombre</th>
+                    <th>Apellidos</th>
+                    <th class="custom-column-btn"></th>
+                </tr>
+                {% if users_list %}
+                    {% for usr in users_list %}
+                        <tr>
+                            <td>{{usr.username}}</td>
+                            <td>{{usr.nombre}}</td>
+                            <td>{{usr.apellidos}}</td>
+                            <td class="custom-column-btn">                           
+                                <button id="btn-editar-personal-{{usr.username}}" type="button" class="custom-btn btn btn-primary" 
+                                data-username="{{usr.username}}" data-nombre="{{usr.nombre}}" data-apellidos="{{usr.apellidos}}">
+                                <i class="fas fa-edit"></i></button>                        
+                                <form action="/personal/eliminar" method="POST" style="display: inline;">
+                                    <input type="hidden" name="username" value="{{usr.username}}">
+                                    <button type="submit" class="custom-btn btn btn-danger"><i class="fa fa-trash"></i></button>
+                                </form>                
+                            </td>                           
+                        </tr>
+                        <div class="modal fade" id="modalModificarPersonal" role="dialog">
+                            <div class="modal-dialog custom-modal-300">
+                                <div class="modal-content">
+                                    <div class="modal-header custom-modal-header">
+                                        <h5>Modificar Usuario</h5>
+                                        <div id="btnCerrarModificarPersonal" class="btnCerrarModal" type="button" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </div>
+                                    </div>
+                                    <form id="formularioModificarPersonal-{{usr.username}}" action="/personal/modificar" method="post">
+                                        <div class="modal-body custom-modal-body">
+                                            <div class="campoRegistro">
+                                                <label for="usernameMod">Usuario:</label>
+                                                <input type="text" id="usernameMod" name="usernameMod" readonly>
+                                            </div>
+                                            <div class="campoRegistro">
+                                                <label for="nombreMod">Nombre:</label>
+                                                <input type="text" id="nombreMod" name="nombreMod" required>
+                                            </div>
+                                            <div class="campoRegistro">
+                                                <label for="apellidosMod">Apellidos:</label>
+                                                <input type="text" id="apellidosMod" name="apellidosMod" required>
+                                            </div>                   
+                                        </div>
+                                        <div class="modal-footer custom-modal-footer">
+                                            <input type="submit" value="Modificar datos">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </table>
+        </div>
+        <button id="botonRegistrarUsuario" type="button" class="btn-accion btn btn-light" data-toggle="modal"
+            data-target="#modalRegistrarUsuario">Registrar nuevo usuario</button>
+        <div class="modal fade" id="modalRegistrarUsuario" role="dialog">
+            <div class="modal-dialog custom-modal-300">
+                <div class="modal-content">
+                    <div class="modal-header custom-modal-header">
+                        <h4>Registro de Usuarios</h4>
+                        <div id="btnCerrarRegistroUsuarios" class="btnCerrarModal" type="button" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </div>
+                    </div>
+                    <form id="formularioRegistroUsuario" action="/personal/registrar" method="post">
+                        <div class="modal-body custom-modal-body">
+                            <div class="campoRegistro">
+                                <label for="username">Usuario:</label>
+                                <input type="text" id="username" name="username" required>
+                            </div>
+                            <div class="campoRegistro">
+                                <label for="nombre">Nombre:</label>
+                                <input type="text" id="nombre" name="nombre" required>
+                            </div>
+                            <div class="campoRegistro">
+                                <label for="apellidos">Apellidos:</label>
+                                <input type="text" id="apellidos" name="apellidos" required>
+                            </div>
+                            <div class="campoRegistro">
+                                <label for="password">Contraseña:</label>
+                                <input type="password" id="password" name="password" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer custom-modal-footer">
+                            <input type="submit" value="Registrar usuario">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+    <script src="/static/js/jquery-3.6.4.min.js"></script>
+    <script type="text/javascript" src="/static/js/main.js"></script>
+</body>
+
+</html>

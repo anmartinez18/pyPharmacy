@@ -1,0 +1,98 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #9cc39c;
+}
+
+.login-container {
+    width: 400px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    background-color: #fff;
+}
+
+#loginButton {
+    border-radius: 15px;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}
+
+.mb3 input {
+    width: 300px;
+    border-radius: 15px;
+    text-align: center;
+    margin-top: 15px;
+}
+
+
+.logo {
+    height: 100px;
+    margin: auto;
+    display: block;
+}
+
+
+#formularioRegistroMedicamentos {
+    height: auto;
+    width: auto;
+
+}
+
+.campoRegistro {
+    color: rgb(0, 0, 0);
+    border: 0;
+    display: inline-block;
+    align-items: center;
+    text-align: left;
+    max-width: 300px;
+    padding: 10px;
+}
+
+#formularioRegistroMedicamentos label {
+    margin-bottom: 5px;
+}
+
+.campoRegistro input {
+    margin-top: 5px;
+    width: 250px;
+    border-radius: 15px;
+    text-align: center;
+    height: auto;
+    border-color: black;
+    height: 35px;
+}
+
+.modal-footer input[type="submit"] {
+    width: 170px;
+    border-radius: 15px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    margin: auto;
+    justify-content: center;
+    background-color: #5a75af;
+    border: 0;
+
+}
+
+.custom-modal-300 {
+    max-width: 300px;
+}
+
+.custom-modal-header {
+    background-color: #9cc39c;
+}
+
+.custom-modal-footer {
+    background-color: #9cc39c;
+}
+
+#botonRegistrarUsuarioLogin {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
